@@ -1,19 +1,25 @@
+import java.awt.Color;
 import java.awt.Graphics;
-
-public class Ball {
-	int x;
-	int y;
-	int width;
-	int height;
+import java.awt.event.KeyEvent;
+public class Ball extends GameObject{
+	
 	int speed;
+	int fallSpeed;
+	boolean up;
+	boolean down;
+	boolean left;
+	boolean right;
 	public Ball(int x, int y, int width, int height) {
-		this.x = x;
-		this.y=y;
-		this.width=width;
-		this.height=height;
-		speed=8;
+		super(x, y, width, height);
+		speed=90;
+		fallSpeed = 2;
 	}
 	public void draw(Graphics g) {
-		  g.fillOval(x, y, width, height);
+		g.setColor(Color.WHITE);
+		g.fillOval(x, y, width, height);
+	}
+	void update() {
+		super.update();
+		this.y+=fallSpeed;
 	}
 }

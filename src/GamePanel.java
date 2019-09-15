@@ -5,12 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-
+import java.util.ArrayList;
 import javax.swing.JPanel;
 import javax.swing.Timer;
-
 public class GamePanel extends JPanel  implements KeyListener, ActionListener {
-	public int currentstate = 0;
+public int currentstate = 0;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
@@ -19,12 +18,14 @@ public class GamePanel extends JPanel  implements KeyListener, ActionListener {
 	Timer framerate;
 	int x =250;
 	int y = 50;
+	Ball ball;
+	ObjectManager manager;
 	public GamePanel(){
 		titleFont = new Font("Arial",Font.BOLD,50);
 		otherFonts = new Font("Arial",Font.PLAIN,25);
 		framerate= new Timer(1000/60,this);
-		
-		
+		ball = new Ball(250,50,15,15);
+		manager = new ObjectManager(ball);
 	}
 
 	@Override
@@ -42,6 +43,18 @@ public class GamePanel extends JPanel  implements KeyListener, ActionListener {
 			if(currentstate == 3) {
 				currentstate=0;
 			}
+		}
+		if(e.getKeyCode()==87) {
+			ball.y-=8;
+			}
+		if(e.getKeyCode()==83) {
+			ball.y+=8;
+		}
+		if(e.getKeyCode()==65) {
+			ball.x-=8;
+		}
+		if(e.getKeyCode()==68) {
+			ball.x+=8;
 		}
 	}
 
@@ -71,7 +84,8 @@ void drawGameState(Graphics g){
 		//manager.draw(g);
 		g.setFont(otherFonts);
 		g.setColor(Color.WHITE);
-		g.fillOval(x, y, 15, 15);
+		ball.draw(g);
+		manager.update();
 	}
 void drawEndState(Graphics g){
 	g.setColor(Color.RED);
