@@ -2,17 +2,18 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.event.KeyEvent;
 public class Ball extends GameObject{
-	
-	int speed;
-	int fallSpeed;
+	boolean isAlive;
+	double speed;
+	double horasoltalSpeed;
 	boolean up;
 	boolean down;
 	boolean left;
 	boolean right;
 	public Ball(int x, int y, int width, int height) {
 		super(x, y, width, height);
-		speed=90;
-		fallSpeed = 2;
+		speed=2;
+		horasoltalSpeed = 0;
+		isAlive = true;
 	}
 	public void draw(Graphics g) {
 		g.setColor(Color.WHITE);
@@ -20,6 +21,24 @@ public class Ball extends GameObject{
 	}
 	void update() {
 		super.update();
-		this.y+=fallSpeed;
+		this.y+=speed;
+		this.speed+=0.5;
+		this.x+=horasoltalSpeed;
+		if(horasoltalSpeed>0) {
+			horasoltalSpeed-=0.1;
+		}
+		else if(horasoltalSpeed<0) {
+			horasoltalSpeed+=0.1;
+			}
+		if(this.y>=800) {
+			isAlive=false;
+		}
+		if(this.x>=500) {
+			this.x=0;
+		}
+		else if(this.x<=0) {
+			this.x=500;
+		}
+		
 	}
 }

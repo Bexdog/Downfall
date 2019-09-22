@@ -19,13 +19,16 @@ public int currentstate = 0;
 	int x =250;
 	int y = 50;
 	Ball ball;
+	Coins coin;
 	ObjectManager manager;
 	public GamePanel(){
 		titleFont = new Font("Arial",Font.BOLD,50);
 		otherFonts = new Font("Arial",Font.PLAIN,25);
 		framerate= new Timer(1000/60,this);
 		ball = new Ball(250,50,15,15);
-		manager = new ObjectManager(ball);
+		coin = new Coins(250,400,15,15);
+		manager = new ObjectManager(ball, coin);
+		
 	}
 
 	@Override
@@ -38,24 +41,28 @@ public int currentstate = 0;
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
 		System.out.println(e.getKeyCode());
+		if(e.getKeyCode()==87) {
+			ball.speed=-10;
+			}
+		if(e.getKeyCode()==32) {
+			ball.speed=-10;
+			}
+		if(e.getKeyCode()==83) {
+			ball.y+=ball.speed;
+		}
+		if(e.getKeyCode()==65) {
+			ball.horasoltalSpeed=-5;
+		}
+		if(e.getKeyCode()==68) {
+			ball.horasoltalSpeed=+5;
+		}		
 		if(e.getKeyCode()==10) {
 			currentstate++;
 			if(currentstate == 3) {
 				currentstate=0;
 			}
 		}
-		if(e.getKeyCode()==87) {
-			ball.y-=8;
-			}
-		if(e.getKeyCode()==83) {
-			ball.y+=8;
-		}
-		if(e.getKeyCode()==65) {
-			ball.x-=8;
-		}
-		if(e.getKeyCode()==68) {
-			ball.x+=8;
-		}
+		
 	}
 
 	@Override
@@ -68,6 +75,7 @@ public int currentstate = 0;
 		framerate.start();
 	}
 	void drawMenuState(Graphics g) {
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Downfall.width, Downfall.height);    
 		g.setColor(Color.WHITE);
@@ -78,16 +86,24 @@ public int currentstate = 0;
 		g.drawString("Press SPACE For Instructions", 85, 450);
 	}
 void drawGameState(Graphics g){
-		
+	
 	g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Downfall.width, Downfall.height);
 		//manager.draw(g);
 		g.setFont(otherFonts);
 		g.setColor(Color.WHITE);
 		ball.draw(g);
+		coin.draw(g);
 		manager.update();
+		if(ball.isAlive==false) {
+			currentstate++;
+		}
 	}
 void drawEndState(Graphics g){
+	ball.isAlive=true;
+	ball.y=0;
+	ball.x=250;
+	ball.speed=0;
 	g.setColor(Color.RED);
 	g.fillRect(0, 0, Downfall.width, Downfall.height);
 	g.setColor(Color.black);
