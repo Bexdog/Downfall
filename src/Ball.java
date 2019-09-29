@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 public class Ball extends GameObject{
 	boolean isAlive;
@@ -9,8 +10,9 @@ public class Ball extends GameObject{
 	boolean down;
 	boolean left;
 	boolean right;
-	public Ball(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	
+	public Ball(int x, int y, int width, int height,Rectangle rect) {
+		super(x, y, width, height, rect);
 		speed=2;
 		horasoltalSpeed = 0;
 		isAlive = true;
@@ -30,7 +32,7 @@ public class Ball extends GameObject{
 		else if(horasoltalSpeed<0) {
 			horasoltalSpeed+=0.1;
 			}
-		if(this.y>=800) {
+		if(this.y>=760) {
 			isAlive=false;
 		}
 		if(this.x>=500) {

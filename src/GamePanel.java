@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -20,14 +21,24 @@ public int currentstate = 0;
 	int y = 50;
 	Ball ball;
 	Coins coin;
+	Lava lava1;
+	Lava lava2;
+	Lava lava3;
+	Lava lava4;
+	Rectangle rect = new Rectangle();
 	ObjectManager manager;
 	public GamePanel(){
+		
 		titleFont = new Font("Arial",Font.BOLD,50);
 		otherFonts = new Font("Arial",Font.PLAIN,25);
 		framerate= new Timer(1000/60,this);
-		ball = new Ball(250,50,15,15);
-		coin = new Coins(250,400,15,15);
-		manager = new ObjectManager(ball, coin);
+		ball = new Ball(250,50,15,15,rect);
+		coin = new Coins(250,400,15,15,rect);
+		lava1 = new Lava(200,780,15,15,rect);
+		lava2 = new Lava(200,350,15,15,rect);
+		lava3 = new Lava(200,80,15,15,rect);
+		lava4 = new Lava(200,700,15,15,rect);
+		manager = new ObjectManager(ball, coin,lava1,lava2,lava3,lava4);
 		
 	}
 
@@ -59,7 +70,7 @@ public int currentstate = 0;
 		if(e.getKeyCode()==10) {
 			currentstate++;
 			if(currentstate == 3) {
-				currentstate=0;
+				currentstate=MENU_STATE;
 			}
 		}
 		
@@ -75,7 +86,7 @@ public int currentstate = 0;
 		framerate.start();
 	}
 	void drawMenuState(Graphics g) {
-		
+		manager.score=0;
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Downfall.width, Downfall.height);    
 		g.setColor(Color.WHITE);
@@ -89,17 +100,25 @@ void drawGameState(Graphics g){
 	
 	g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Downfall.width, Downfall.height);
+		g.setColor(Color.red);
+		g.fillRect(0,760,Downfall.width,40);
+		
 		//manager.draw(g);
 		g.setFont(otherFonts);
 		g.setColor(Color.WHITE);
-		ball.draw(g);
-		coin.draw(g);
+		manager.draw(g);
 		manager.update();
+		manager.checkCollisions();
 		if(ball.isAlive==false) {
 			currentstate++;
 		}
+		
+		
 	}
 void drawEndState(Graphics g){
+	
+	lava1.reset();
+	lava2.reset();
 	ball.isAlive=true;
 	ball.y=0;
 	ball.x=250;
@@ -110,8 +129,9 @@ void drawEndState(Graphics g){
 	g.setFont(titleFont);
 	g.drawString("Game Over", 100, 175);
 	g.setFont(otherFonts);
-	g.drawString("You got "+" coins", 120, 325);
+	g.drawString("You got "+manager.score+" coins", 120, 325);
 	g.drawString("Press ENTER To Restart", 95, 450);
+	
 }
 	@Override
 	public void actionPerformed(ActionEvent e) {

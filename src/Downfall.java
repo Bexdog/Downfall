@@ -1,4 +1,5 @@
 import java.awt.Component;
+import java.awt.Rectangle;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,6 +10,7 @@ GamePanel panel;
 public Ball ball;
 static int width = 500;
 static int height = 800;
+Rectangle rect = new Rectangle();
 	public static void main(String[] args) {
 	Downfall downfall = new Downfall();
 	downfall.setup();
@@ -16,7 +18,7 @@ static int height = 800;
 		public Downfall() {
 			frame = new JFrame();
 			panel = new GamePanel();
-			ball = new Ball(250,50,10,10);
+			ball = new Ball(250,50,10,10,rect);
 		}
 		void setup() {
 			frame.addKeyListener(panel);
