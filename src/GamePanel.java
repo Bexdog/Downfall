@@ -6,7 +6,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 public class GamePanel extends JPanel  implements KeyListener, ActionListener {
@@ -27,17 +31,24 @@ public int currentstate = 0;
 	Lava lava4;
 	Rectangle rect = new Rectangle();
 	ObjectManager manager;
+	public static BufferedImage lavaBubble;
 	public GamePanel(){
 		
+		 try {
+			lavaBubble = ImageIO.read(this.getClass().getResourceAsStream("Lava_Bubble.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		titleFont = new Font("Arial",Font.BOLD,50);
 		otherFonts = new Font("Arial",Font.PLAIN,25);
 		framerate= new Timer(1000/60,this);
 		ball = new Ball(250,50,15,15,rect);
 		coin = new Coins(250,400,15,15,rect);
-		lava1 = new Lava(200,780,15,15,rect);
-		lava2 = new Lava(200,350,15,15,rect);
-		lava3 = new Lava(200,80,15,15,rect);
-		lava4 = new Lava(200,700,15,15,rect);
+		lava1 = new Lava(200,780,25,25,rect);
+		lava2 = new Lava(200,350,25,25,rect);
+		lava3 = new Lava(200,80,25,25,rect);
+		lava4 = new Lava(200,700,25,25,rect);
 		manager = new ObjectManager(ball, coin,lava1,lava2,lava3,lava4);
 		
 	}

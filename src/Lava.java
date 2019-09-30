@@ -27,7 +27,7 @@ boolean up = true;
 	}
 	void draw(Graphics g) {
 		g.setColor(Color.red);
-		g.fillOval(x, y, width ,height );
+		g.drawImage(GamePanel.lavaBubble,x, y, width ,height,null );
 	}
 	void update() {
 		super.update();
