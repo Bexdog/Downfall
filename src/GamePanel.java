@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.JPanel;
@@ -18,24 +19,29 @@ public int currentstate = 0;
 	final int MENU_STATE = 0;
 	final int GAME_STATE = 1;
 	final int END_STATE = 2;
+	final int WIN_STATE = 4;
 	Font titleFont;
 	Font otherFonts;
 	Timer framerate;
 	int x =250;
 	int y = 50;
 	Ball ball;
-	Coins coin;
+	Coin coin;
 	Lava lava1;
 	Lava lava2;
 	Lava lava3;
 	Lava lava4;
-	Rectangle rect = new Rectangle();
+	Random randy = new Random();	
 	ObjectManager manager;
 	public static BufferedImage lavaBubble;
+	public static BufferedImage lava;
+	public static BufferedImage coin1;
 	public GamePanel(){
 		
 		 try {
 			lavaBubble = ImageIO.read(this.getClass().getResourceAsStream("Lava_Bubble.png"));
+			lava = ImageIO.read(this.getClass().getResourceAsStream("Lava.png"));
+			coin1 = ImageIO.read(this.getClass().getResourceAsStream("coin.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,12 +49,9 @@ public int currentstate = 0;
 		titleFont = new Font("Arial",Font.BOLD,50);
 		otherFonts = new Font("Arial",Font.PLAIN,25);
 		framerate= new Timer(1000/60,this);
-		ball = new Ball(250,50,15,15,rect);
-		coin = new Coins(250,400,15,15,rect);
-		lava1 = new Lava(200,780,25,25,rect);
-		lava2 = new Lava(200,350,25,25,rect);
-		lava3 = new Lava(200,80,25,25,rect);
-		lava4 = new Lava(200,700,25,25,rect);
+		ball = new Ball(250,50,15,15);
+		coin = new Coin(250,400,25,25);
+		
 		manager = new ObjectManager(ball, coin,lava1,lava2,lava3,lava4);
 		
 	}
@@ -83,9 +86,14 @@ public int currentstate = 0;
 			if(currentstate == 3) {
 				currentstate=MENU_STATE;
 			}
+			if(currentstate == 1) {
+				manager.lava.add(new Lava(200,700,25,25));
+			}
+			
+			}
 		}
 		
-	}
+	
 
 	@Override
 	public void keyReleased(KeyEvent e) {
@@ -98,6 +106,7 @@ public int currentstate = 0;
 	}
 	void drawMenuState(Graphics g) {
 		manager.score=0;
+		manager.lava.clear();
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Downfall.width, Downfall.height);    
 		g.setColor(Color.WHITE);
@@ -109,14 +118,13 @@ public int currentstate = 0;
 	}
 void drawGameState(Graphics g){
 	
-	g.setColor(Color.BLACK);
-		g.fillRect(0, 0, Downfall.width, Downfall.height);
-		g.setColor(Color.red);
-		g.fillRect(0,760,Downfall.width,40);
+	g.drawImage(GamePanel.lava,0, 0,500,800,null );
+		
 		
 		//manager.draw(g);
 		g.setFont(otherFonts);
-		g.setColor(Color.WHITE);
+		g.setColor(new Color((int)randy.nextInt(256),(int)randy.nextInt(256),(int)randy.nextInt(256)));
+		
 		manager.draw(g);
 		manager.update();
 		manager.checkCollisions();
@@ -127,9 +135,17 @@ void drawGameState(Graphics g){
 		
 	}
 void drawEndState(Graphics g){
+	if(currentstate == 2) {
+		if(manager.score>=30) {
+			currentstate=4;
+				
+			
+		}
+	}
+	for(Lava lava:manager.lava) {
+		lava.reset();
+	}
 	
-	lava1.reset();
-	lava2.reset();
 	ball.isAlive=true;
 	ball.y=0;
 	ball.x=250;
@@ -143,6 +159,16 @@ void drawEndState(Graphics g){
 	g.drawString("You got "+manager.score+" coins", 120, 325);
 	g.drawString("Press ENTER To Restart", 95, 450);
 	
+}
+void drawWinState(Graphics g){
+	g.setColor(Color.green);
+	g.fillRect(0, 0, Downfall.width, Downfall.height);
+	g.setColor(Color.black);
+	g.setFont(titleFont);
+	g.drawString("You Win!", 100, 175);
+	g.setFont(otherFonts);
+	g.drawString("You got "+manager.score+" coins", 120, 325);
+	g.drawString("Press ENTER To Restart", 95, 450);
 }
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -175,6 +201,9 @@ void drawEndState(Graphics g){
 
            drawEndState(g);
 
+    }
+    else if(currentstate == WIN_STATE) {
+    	drawWinState(g);
     }
 }
 }

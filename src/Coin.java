@@ -3,11 +3,11 @@ import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 import java.util.Random;
-public class Coins extends GameObject{
+public class Coin extends GameObject{
 int randy;
 boolean isAlive;
-	public Coins(int x, int y, int width, int height,Rectangle rect) {
-		super(x, y, width, height, rect);
+	public Coin(int x, int y, int width, int height) {
+		super(x, y, width, height);
 		isAlive = true;
 		randy = new Random().nextInt(495);
 		// TODO Auto-generated constructor stub
@@ -15,7 +15,7 @@ boolean isAlive;
 	void draw(Graphics g) {
 		
 		g.setColor(Color.YELLOW);
-		g.fillOval(x, y, width, height);
+		g.drawImage(GamePanel.coin1,x, y, width ,height,null);
 	}
 	void update() {
 		y-=3;

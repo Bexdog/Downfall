@@ -9,7 +9,7 @@ public class GameObject  {
     int height;
     boolean isAlive;
     Rectangle rect;
-   public GameObject(int x,int y,int width,int height, Rectangle rect) {
+   public GameObject(int x,int y,int width,int height) {
 	   this.x=x;
 	   this.y=y;
 	   this.width=width;

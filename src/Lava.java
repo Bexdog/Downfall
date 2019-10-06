@@ -9,8 +9,8 @@ int angle;
 int speed;
 boolean left;
 boolean up = true;
-	public Lava(int x, int y, int width, int height, Rectangle rect) {
-		super(x, y, width, height, rect);
+	public Lava(int x, int y, int width, int height) {
+		super(x, y, width, height);
 		// TODO Auto-generated constructor stub
 		randy = new Random().nextInt(Downfall.width);
 		angle = new Random().nextInt(15);

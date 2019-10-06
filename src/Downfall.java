@@ -18,7 +18,7 @@ Rectangle rect = new Rectangle();
 		public Downfall() {
 			frame = new JFrame();
 			panel = new GamePanel();
-			ball = new Ball(250,50,10,10,rect);
+			ball = new Ball(250,50,10,10);
 		}
 		void setup() {
 			frame.addKeyListener(panel);

@@ -2,6 +2,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
+import java.util.Random;
 public class Ball extends GameObject{
 	boolean isAlive;
 	double speed;
@@ -10,15 +11,15 @@ public class Ball extends GameObject{
 	boolean down;
 	boolean left;
 	boolean right;
-	
-	public Ball(int x, int y, int width, int height,Rectangle rect) {
-		super(x, y, width, height, rect);
+	Random randy = new Random();	
+	public Ball(int x, int y, int width, int height) {
+		super(x, y, width, height);
 		speed=2;
 		horasoltalSpeed = 0;
 		isAlive = true;
 	}
 	public void draw(Graphics g) {
-		g.setColor(Color.WHITE);
+		g.setColor(new Color((int)randy.nextInt(256),(int)randy.nextInt(256),(int)randy.nextInt(256)));
 		g.fillOval(x, y, width, height);
 	}
 	void update() {

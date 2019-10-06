@@ -4,5 +4,8 @@
 /GameObject.class
 /GamePanel.class
 /Lava.class
-/ObjectManager.class
 /Lava_Bubble.png
+/ObjectManager.class
+/Coin.class
+/Lava.png
+/coin.png
