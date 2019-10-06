@@ -1,3 +1,4 @@
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
@@ -12,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Random;
 
 import javax.imageio.ImageIO;
+import javax.swing.JApplet;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 public class GamePanel extends JPanel  implements KeyListener, ActionListener {
@@ -23,6 +26,7 @@ public int currentstate = 0;
 	Font titleFont;
 	Font otherFonts;
 	Timer framerate;
+	boolean sound = true;
 	int x =250;
 	int y = 50;
 	Ball ball;
@@ -68,9 +72,23 @@ public int currentstate = 0;
 		System.out.println(e.getKeyCode());
 		if(e.getKeyCode()==87) {
 			ball.speed=-10;
+			if(sound) {
+				playSound("marioBoing.wav");
+				}
 			}
-		if(e.getKeyCode()==32) {
+		if(e.getKeyCode()==32&&currentstate==GAME_STATE) {
 			ball.speed=-10;
+			if(sound) {
+			playSound("marioBoing.wav");
+			}			
+			}
+		if(e.getKeyCode()==90) {
+				if(sound) {
+					sound = false;
+				}
+				else {
+					sound = true;
+				}
 			}
 		if(e.getKeyCode()==83) {
 			ball.y+=ball.speed;
@@ -78,18 +96,22 @@ public int currentstate = 0;
 		if(e.getKeyCode()==65) {
 			ball.horasoltalSpeed=-5;
 		}
+		if(e.getKeyCode()==32&&currentstate==MENU_STATE) {
+			JOptionPane.showMessageDialog(null, "To play, use the w,a,s,d keys to move, space is also jump."+"\n"+" Try and get 20 coins to win, while avoiding the lava, which gets madder every 6 coins you get. Press 'z' to change sound on or off."+"\n"+"Note: having sound on might invoke lag");
+			}
 		if(e.getKeyCode()==68) {
 			ball.horasoltalSpeed=+5;
 		}		
 		if(e.getKeyCode()==10) {
 			currentstate++;
-			if(currentstate == 3) {
+			if(currentstate == 3||currentstate==5) {
 				currentstate=MENU_STATE;
 			}
 			if(currentstate == 1) {
 				manager.lava.add(new Lava(200,700,25,25));
+				manager.coins.add(new Coin(250,400,25,25));
 			}
-			
+
 			}
 		}
 		
@@ -107,6 +129,8 @@ public int currentstate = 0;
 	void drawMenuState(Graphics g) {
 		manager.score=0;
 		manager.lava.clear();
+		manager.coins.clear();
+		
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, Downfall.width, Downfall.height);    
 		g.setColor(Color.WHITE);
@@ -135,16 +159,20 @@ void drawGameState(Graphics g){
 		
 	}
 void drawEndState(Graphics g){
+	for(Lava lava:manager.lava) {
+		lava.reset();
+	}
+	for(Coin coin:manager.coins) {
+		coin.reset();
+	}
 	if(currentstate == 2) {
-		if(manager.score>=30) {
+		if(manager.score>=20) {
 			currentstate=4;
 				
 			
 		}
 	}
-	for(Lava lava:manager.lava) {
-		lava.reset();
-	}
+	
 	
 	ball.isAlive=true;
 	ball.y=0;
@@ -161,6 +189,7 @@ void drawEndState(Graphics g){
 	
 }
 void drawWinState(Graphics g){
+	
 	g.setColor(Color.green);
 	g.fillRect(0, 0, Downfall.width, Downfall.height);
 	g.setColor(Color.black);
@@ -206,4 +235,8 @@ void drawWinState(Graphics g){
     	drawWinState(g);
     }
 }
+	private void playSound(String fileName) {
+		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
+		sound.play();
+	}
 }

@@ -24,7 +24,7 @@ Rectangle rect = new Rectangle();
 			frame.addKeyListener(panel);
 			frame.add(panel);
 			frame.pack();
-			frame.setSize(width,height);
+			frame.setSize(width,height+45);
 			frame.setVisible(true);
 			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			panel.startGame();

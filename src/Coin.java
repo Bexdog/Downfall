@@ -9,7 +9,7 @@ boolean isAlive;
 	public Coin(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		isAlive = true;
-		randy = new Random().nextInt(495);
+		randy = new Random().nextInt(490);
 		// TODO Auto-generated constructor stub
 	}
 	void draw(Graphics g) {
@@ -23,12 +23,12 @@ boolean isAlive;
 		if(y<=0) {
 			reset();
 		}
-		randy = new Random().nextInt(500);
+		randy = new Random().nextInt(490);
 	}
 	void reset (){
 		y=800;
 		super.update();
-		randy = new Random().nextInt(495);
-		x=randy;
+		randy = new Random().nextInt(490);
+		x=randy+5;
 	}
 }

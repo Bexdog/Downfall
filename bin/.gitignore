@@ -1,11 +1,11 @@
 /Ball.class
-/Coins.class
+/Coin.class
 /Downfall.class
 /GameObject.class
 /GamePanel.class
 /Lava.class
+/Lava.png
 /Lava_Bubble.png
 /ObjectManager.class
-/Coin.class
-/Lava.png
 /coin.png
+/marioBoing.wav

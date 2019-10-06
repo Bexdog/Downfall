@@ -17,7 +17,6 @@ public class ObjectManager {
 	lava4 = new Lava(200,700,25,25);
 	coins.add(coin);
 	lava.add(new Lava(200,780,25,25));
-	
 }
 	void draw(Graphics g) {
 		ball.draw(g);
@@ -51,13 +50,12 @@ public class ObjectManager {
 				score++;
 				if(score%6==0) {
 					lava.add(new Lava(200,780,25,25));
+					coins.add(new Coin(250,800,25,25));
 				}
 			}
 		}
 	}
-	void addLava(Lava lava) {
-		this.lava.add(lava);
-	}
+	
 	
 }
 
