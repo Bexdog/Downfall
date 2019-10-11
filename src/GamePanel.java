@@ -72,22 +72,22 @@ public int currentstate = 0;
 		System.out.println(e.getKeyCode());
 		if(e.getKeyCode()==87) {
 			ball.speed=-10;
-			if(sound) {
+			if(manager.sound&&currentstate==GAME_STATE) {
 				playSound("marioBoing.wav");
 				}
 			}
 		if(e.getKeyCode()==32&&currentstate==GAME_STATE) {
 			ball.speed=-10;
-			if(sound) {
+			if(manager.sound) {
 			playSound("marioBoing.wav");
 			}			
 			}
 		if(e.getKeyCode()==90) {
-				if(sound) {
-					sound = false;
+				if(manager.sound) {
+					manager.sound = false;
 				}
 				else {
-					sound = true;
+					manager.sound = true;
 				}
 			}
 		if(e.getKeyCode()==83) {
@@ -95,7 +95,7 @@ public int currentstate = 0;
 		}
 		if(e.getKeyCode()==38) {
 			ball.speed=-10;
-			if(sound) {
+			if(manager.sound) {
 				playSound("marioBoing.wav");
 				}
 			}
@@ -247,7 +247,7 @@ void drawWinState(Graphics g){
     	drawWinState(g);
     }
 }
-	private void playSound(String fileName) {
+private void playSound(String fileName) {
 		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
 		sound.play();
 	}

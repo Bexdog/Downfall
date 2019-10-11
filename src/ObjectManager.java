@@ -1,15 +1,19 @@
+import java.applet.AudioClip;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 	import java.util.Random;
+
+import javax.swing.JApplet;
 public class ObjectManager {
 	ArrayList <Coin> coins = new ArrayList<Coin> ();
 	ArrayList <Lava> lava = new  ArrayList<Lava>();
 	int score = 0;
 	Ball ball;
 	Random randy = new Random();	
+	boolean sound=true;
 	ObjectManager(Ball ball, Coin coin,Lava lava1, Lava lava2,Lava lava3,Lava lava4){
 	this.ball = ball;
 	lava1 = new Lava(200,780,25,25);
@@ -58,6 +62,9 @@ public class ObjectManager {
 		for(Coin coin:coins) {
 			if(ball.rect.intersects(coin.rect)) {
 				coin.reset();
+				if(sound) {
+				playSound("ch-ching.wav");
+				}
 				score++;
 				if(score%6==0) {
 					lava.add(new Lava(200,780,25,25));
@@ -67,6 +74,9 @@ public class ObjectManager {
 		}
 	}
 	
-	
+	private void playSound(String fileName) {
+		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
+		sound.play();
+	}
 }
 
