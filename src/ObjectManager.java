@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
@@ -8,7 +9,7 @@ public class ObjectManager {
 	ArrayList <Lava> lava = new  ArrayList<Lava>();
 	int score = 0;
 	Ball ball;
-	
+	Random randy = new Random();	
 	ObjectManager(Ball ball, Coin coin,Lava lava1, Lava lava2,Lava lava3,Lava lava4){
 	this.ball = ball;
 	lava1 = new Lava(200,780,25,25);
@@ -19,6 +20,16 @@ public class ObjectManager {
 	lava.add(new Lava(200,780,25,25));
 }
 	void draw(Graphics g) {
+		if(score>=15) {
+			g.setColor(new Color((int)randy.nextInt(256),(int)randy.nextInt(256),(int)randy.nextInt(256)));
+		}
+		else if(score<=14&&score>=10) {
+			g.setColor(Color.green) ;
+				
+		}
+		else {
+			g.setColor(Color.white);
+		}
 		ball.draw(g);
 	for(Coin coin:coins) {
 		coin.draw(g);

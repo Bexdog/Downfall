@@ -19,7 +19,8 @@ public class Ball extends GameObject{
 		isAlive = true;
 	}
 	public void draw(Graphics g) {
-		g.setColor(new Color((int)randy.nextInt(256),(int)randy.nextInt(256),(int)randy.nextInt(256)));
+		
+		
 		g.fillOval(x, y, width, height);
 	}
 	void update() {

@@ -93,7 +93,16 @@ public int currentstate = 0;
 		if(e.getKeyCode()==83) {
 			ball.y+=ball.speed;
 		}
+		if(e.getKeyCode()==38) {
+			ball.speed=-10;
+			if(sound) {
+				playSound("marioBoing.wav");
+				}
+			}
 		if(e.getKeyCode()==65) {
+			ball.horasoltalSpeed=-5;
+		}
+		if(e.getKeyCode()==37) {
 			ball.horasoltalSpeed=-5;
 		}
 		if(e.getKeyCode()==32&&currentstate==MENU_STATE) {
@@ -101,7 +110,10 @@ public int currentstate = 0;
 			}
 		if(e.getKeyCode()==68) {
 			ball.horasoltalSpeed=+5;
-		}		
+		}
+		if(e.getKeyCode()==39) {
+			ball.horasoltalSpeed=+5;
+		}
 		if(e.getKeyCode()==10) {
 			currentstate++;
 			if(currentstate == 3||currentstate==5) {
