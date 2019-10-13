@@ -22,6 +22,9 @@ boolean isAlive;
 		super.update();
 		if(y<=0) {
 			reset();
+			if(ObjectManager.score<20) {
+			ObjectManager.score--;
+			}
 		}
 		randy = new Random().nextInt(490);
 	}

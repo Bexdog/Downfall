@@ -40,9 +40,15 @@ public int currentstate = 0;
 	public static BufferedImage lavaBubble;
 	public static BufferedImage lava;
 	public static BufferedImage coin1;
+	public static AudioClip money;
+	public static AudioClip jump;
+	public static AudioClip fire;
 	public GamePanel(){
 		
 		 try {
+			money = JApplet.newAudioClip(getClass().getResource("ch-ching.wav"));
+			fire = JApplet.newAudioClip(getClass().getResource("fire.wav"));
+			jump = JApplet.newAudioClip(getClass().getResource("marioBoing.wav"));
 			lavaBubble = ImageIO.read(this.getClass().getResourceAsStream("Lava_Bubble.png"));
 			lava = ImageIO.read(this.getClass().getResourceAsStream("Lava.png"));
 			coin1 = ImageIO.read(this.getClass().getResourceAsStream("coin.png"));
@@ -73,13 +79,16 @@ public int currentstate = 0;
 		if(e.getKeyCode()==87) {
 			ball.speed=-10;
 			if(manager.sound&&currentstate==GAME_STATE) {
-				playSound("marioBoing.wav");
+				jump.play();
 				}
+		}
+			if(e.getKeyCode()==83||e.getKeyCode()==40) {
+				ball.speed=+4;				
 			}
 		if(e.getKeyCode()==32&&currentstate==GAME_STATE) {
 			ball.speed=-10;
 			if(manager.sound) {
-			playSound("marioBoing.wav");
+				jump.play();
 			}			
 			}
 		if(e.getKeyCode()==90) {
@@ -93,10 +102,10 @@ public int currentstate = 0;
 		if(e.getKeyCode()==83) {
 			ball.y+=ball.speed;
 		}
-		if(e.getKeyCode()==38) {
+		if(e.getKeyCode()==38&&currentstate==GAME_STATE) {
 			ball.speed=-10;
 			if(manager.sound) {
-				playSound("marioBoing.wav");
+				jump.play();
 				}
 			}
 		if(e.getKeyCode()==65) {
@@ -106,7 +115,9 @@ public int currentstate = 0;
 			ball.horasoltalSpeed=-5;
 		}
 		if(e.getKeyCode()==32&&currentstate==MENU_STATE) {
-			JOptionPane.showMessageDialog(null, "To play, use the w,a,s,d keys to move, space is also jump."+"\n"+" Try and get 20 coins to win, while avoiding the lava, which gets madder every 6 coins you get. Press 'z' to change sound on or off."+"\n"+"Note: having sound on might invoke lag");
+			JOptionPane.showMessageDialog(null, "To play, use the w,a,s,d, and arrow keys to move, space is also jump."+"\n"+
+		" Try and get 20 coins to win, while avoiding the lava, which gets madder every 6 coins you get. Press 'z' to change sound on or off."+"\n"
+					+"Note: The first time you get a coin, the game might lag a big");
 			}
 		if(e.getKeyCode()==68) {
 			ball.horasoltalSpeed=+5;
@@ -119,13 +130,14 @@ public int currentstate = 0;
 			if(currentstate == 3||currentstate==5) {
 				currentstate=MENU_STATE;
 			}
+		
 			if(currentstate == 1) {
 				manager.lava.add(new Lava(200,700,25,25));
 				manager.coins.add(new Coin(250,400,25,25));
 			}
 
-			}
 		}
+	}
 		
 	
 
@@ -155,9 +167,11 @@ public int currentstate = 0;
 void drawGameState(Graphics g){
 	
 	g.drawImage(GamePanel.lava,0, 0,500,800,null );
+	g.setColor(Color.WHITE);
+	g.setFont(otherFonts);
+	g.drawString(manager.score+"", 470, 20);
 		
 		
-		//manager.draw(g);
 		g.setFont(otherFonts);
 		g.setColor(new Color((int)randy.nextInt(256),(int)randy.nextInt(256),(int)randy.nextInt(256)));
 		
@@ -179,7 +193,7 @@ void drawEndState(Graphics g){
 	}
 	if(currentstate == 2) {
 		if(manager.score>=20) {
-			currentstate=4;
+			currentstate=WIN_STATE;
 				
 			
 		}
@@ -247,8 +261,4 @@ void drawWinState(Graphics g){
     	drawWinState(g);
     }
 }
-private void playSound(String fileName) {
-		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
-		sound.play();
-	}
 }

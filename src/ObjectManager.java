@@ -10,10 +10,10 @@ import javax.swing.JApplet;
 public class ObjectManager {
 	ArrayList <Coin> coins = new ArrayList<Coin> ();
 	ArrayList <Lava> lava = new  ArrayList<Lava>();
-	int score = 0;
+	static int score = 0;
 	Ball ball;
 	Random randy = new Random();	
-	boolean sound=true;
+	static boolean sound=true;
 	ObjectManager(Ball ball, Coin coin,Lava lava1, Lava lava2,Lava lava3,Lava lava4){
 	this.ball = ball;
 	lava1 = new Lava(200,780,25,25);
@@ -24,10 +24,10 @@ public class ObjectManager {
 	lava.add(new Lava(200,780,25,25));
 }
 	void draw(Graphics g) {
-		if(score>=15) {
+		if(score>=20) {
 			g.setColor(new Color((int)randy.nextInt(256),(int)randy.nextInt(256),(int)randy.nextInt(256)));
 		}
-		else if(score<=14&&score>=10) {
+		else if(score<=19&&score>=10) {
 			g.setColor(Color.green) ;
 				
 		}
@@ -59,14 +59,14 @@ public class ObjectManager {
 			}
 			
 		}
-		for(Coin coin:coins) {
-			if(ball.rect.intersects(coin.rect)) {
-				coin.reset();
+		for(int i =0; i<coins.size();i++) {
+			if(ball.rect.intersects(coins.get(i).rect)) {
+				coins.get(i).reset();
 				if(sound) {
-				playSound("ch-ching.wav");
+				GamePanel.money.play();
 				}
 				score++;
-				if(score%6==0) {
+				if(score%6==0&&score!=0) {
 					lava.add(new Lava(200,780,25,25));
 					coins.add(new Coin(250,800,25,25));
 				}
@@ -74,9 +74,6 @@ public class ObjectManager {
 		}
 	}
 	
-	private void playSound(String fileName) {
-		AudioClip sound = JApplet.newAudioClip(getClass().getResource(fileName));
-		sound.play();
-	}
+	
 }
 

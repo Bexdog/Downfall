@@ -24,6 +24,9 @@ boolean up = true;
 		angle = new Random().nextInt(15);
 		speed = new Random().nextInt(8)+3;
 		randy = new Random().nextInt(Downfall.width);
+		if(ObjectManager.sound) {
+		GamePanel.fire.play();
+		}
 	}
 	void draw(Graphics g) {
 		g.setColor(Color.red);
